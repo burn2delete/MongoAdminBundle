@@ -1,0 +1,6 @@
+mongo:
+  pattern: /mongo
+  defaults:
+    _controller: mongo_admin_controller:index
+  requirements:
+    _method: get

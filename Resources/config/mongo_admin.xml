@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="mongo_admin_controller_class">Bundle\MongoAdminBundle\Controller\MongoAdminController</parameter>
+	</parameters>
+
+	<services>
+		<service id="mongo_admin_controller" class="%mongo_admin_controller_class%">
+			<argument type="service" id="request" />
+		</service>
+	</services>
+</container>
