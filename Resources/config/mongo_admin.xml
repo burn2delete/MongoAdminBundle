@@ -11,6 +11,7 @@
 	<services>
 		<service id="mongo_admin_controller" class="%mongo_admin_controller_class%">
 			<argument type="service" id="request" />
+			<argument type="service" id="templating.engine" />
 		</service>
 	</services>
 </container>
