@@ -12,6 +12,7 @@
 		<service id="mongo_admin_controller" class="%mongo_admin_controller_class%">
 			<argument type="service" id="request" />
 			<argument type="service" id="templating.engine" />
+			<argument type="service" id="doctrine.odm.mongodb.document_manager" />
 		</service>
 	</services>
 </container>
