@@ -1,0 +1,8 @@
+Bundle\MongoAdminBundle\Document\TestDocument:
+  type: document
+  collection: test_documents
+  fields:
+    id:
+      id: true
+    testField:
+      type: string
