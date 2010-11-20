@@ -6,12 +6,18 @@
 
     <parameters>
         <parameter key="mongo_admin.mongo_manager.class">Bundle\MongoAdminBundle\MongoManager</parameter>
+        <parameter key="mongo_admin.helper.mongo_manager.class">Bundle\MongoAdminBundle\Helper\MongoManagerHelper</parameter>
         <parameter key="mongo_admin_controller_class">Bundle\MongoAdminBundle\Controller\MongoAdminController</parameter>
     </parameters>
 
     <services>
         <service id="mongo_admin.mongo_manager" class="%mongo_admin.mongo_manager.class%">
             <argument type="service" id="service_container" />
+        </service>
+
+        <service id="mongo_admin.helper.mongo_manager" class="%mongo_admin.helper.mongo_manager.class%">
+            <tag name="templating.helper" alias="mongo_manager" />
+            <argument type="service" id="mongo_admin.mongo_manager" />
         </service>
 
         <service id="mongo_admin_controller" class="%mongo_admin_controller_class%">
