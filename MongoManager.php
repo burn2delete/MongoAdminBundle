@@ -23,6 +23,7 @@ class MongoManager {
         $collections = array();
 
         foreach ($this->documentManagers as $serviceId => $documentManager) {
+            $serviceId = $this->convertServiceIdToName($serviceId);
             $collections[$serviceId] = array();
 
             $mongo = $documentManager->getMongo();
@@ -40,5 +41,15 @@ class MongoManager {
         }
 
         return $collections;
+    }
+
+    protected function convertServiceIdToName($serviceId) {
+        $parts = explode('.', $serviceId);
+        $parts = explode('_', end($parts));
+
+        array_pop($parts);
+        array_pop($parts);
+
+        return implode('_', $parts);
     }
 }
