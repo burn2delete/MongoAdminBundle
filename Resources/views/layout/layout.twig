@@ -3,6 +3,9 @@
 	<head>
 		<title>{% block title 'MongoAdmin' %}</title>
 		<meta charset="utf-8" />
+
+		{{ _view.stylesheets.add('bundles/mongoadmin/css/reset.css') }}
+		{{ _view.stylesheets.output }}
 	</head>
 	<body>
 		<div id="header">
