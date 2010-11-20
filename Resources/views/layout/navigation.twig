@@ -1,21 +1,25 @@
 {% set collections = _view.mongo_manager.getCollections %}
 
-<ul>
+<ul id="navigation-tree" class="treeview">
 	{% for server, dbs in collections %}
-		<li>
-			<strong>{{ server }}</strong>
-			<ul>
-				{% for db, names in dbs %}
-					<li>
-						<strong>{{ db }}</strong>
-						<ul>
-							{% for collection in names %}
-								<li>{{ collection }}</li>
-							{% endfor %}
-						</ul>
-					</li>
-				{% endfor %}
-			</ul>
+		<li class="{% if dbs|length > 0 %}collapsable{% endif %}{% if loop.last == true %} last{% endif %}">
+			<span>{{ server }}</span>
+			{% if dbs|length > 0 %}
+				<ul>
+					{% for db, names in dbs %}
+						<li class="{% if names|length > 0 %}collapsable{% endif %}{% if loop.last == true %} last{% endif %}">
+							<span>{{ db }}</span>
+							{% if names|length > 0 %}
+								<ul>
+									{% for collection in names %}
+										<li{% if loop.last == true %} class="last"{% endif %}><span class="file">{{ collection }}</span></li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
 		</li>
 	{% endfor %}
 </ul>
