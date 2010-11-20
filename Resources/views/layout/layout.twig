@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{% block title 'MongoAdmin' %}</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<div id="header">
+			{% include "MongoAdminBundle:layout:header.twig" with ['_view': _view] %}
+		</div>
+		<div id="content">
+			{% block content '' %}
+		</div>
+		<div id="footer">
+			{% include "MongoAdminBundle:layout:footer.twig" with ['_view': _view] %}
+		</div>
+	</body>
+</html>

@@ -22,7 +22,7 @@ class MongoAdminController {
     public function index() {
         $collections = $this->mongoManager->getCollectionsArray();
 
-        $content = $this->templating->render('MongoAdminBundle:Index:index.twig', array('collections' => $collections));
+        $content = $this->templating->render('MongoAdminBundle:index:index.twig', array('collections' => $collections));
         return new Response($content, 200);
     }
 }
