@@ -1,0 +1,20 @@
+html { background: #495a7e; }
+#header {
+  background: #ffffff;
+  padding-bottom: 2px;
+  padding-left: 10px;
+}
+#header h1 { font-size: 30px; }
+#navigation {
+  background: #ffffff;
+  padding-left: 10px;
+  width: 350px;
+  float: left;
+  overflow: auto;
+}
+#content {
+  color: #ffffff;
+  padding-left: 365px;
+  padding-top: 5px;
+}
+#footer { clear: both; }
