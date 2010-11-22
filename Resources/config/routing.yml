@@ -4,16 +4,16 @@ mongo:
 
 mongo_server:
   pattern: /mongo/view/:_server
-  defaults: { _controller: mongo_admin_controller:index }
+  defaults: { _controller: mongo_admin_controller:viewServer }
 
 mongo_db:
   pattern: /mongo/view/:_server/:_db
-  defaults: { _controller: mongo_admin_controller:index }
+  defaults: { _controller: mongo_admin_controller:viewDb }
 
 mongo_collection:
   pattern: /mongo/view/:_server/:_db/:_collection
-  defaults: { _controller: mongo_admin_controller: index }
+  defaults: { _controller: mongo_admin_controller: viewCollection }
 
 mongo_document:
   pattern: /mongo/view/:_server/:_db/:_collection/:_id
-  defaults: { _controller: mongo_admin_controller: index }
+  defaults: { _controller: mongo_admin_controller: viewDb }
