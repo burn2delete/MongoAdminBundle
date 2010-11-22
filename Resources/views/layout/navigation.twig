@@ -3,16 +3,20 @@
 <ul id="navigation-tree" class="treeview">
 	{% for server, dbs in collections %}
 		<li class="{% if dbs|length > 0 %}collapsable{% endif %}{% if loop.last == true %} last{% endif %}">
-			<span>{{ server }}</span>
+			<span><a href="{% path 'mongo_server' with ['_server': server] %}">{{ server }}</a></span>
 			{% if dbs|length > 0 %}
 				<ul>
 					{% for db, names in dbs %}
 						<li class="{% if names|length > 0 %}collapsable{% endif %}{% if loop.last == true %} last{% endif %}">
-							<span>{{ db }}</span>
+							<span><a href="{% path 'mongo_db' with ['_server': server, '_db': db] %}">{{ db }}</a></span>
 							{% if names|length > 0 %}
 								<ul>
 									{% for collection in names %}
-										<li{% if loop.last == true %} class="last"{% endif %}><span class="file">{{ collection }}</span></li>
+										<li{% if loop.last == true %} class="last"{% endif %}>
+											<span class="file">
+												<a href="{% path 'mongo_db' with ['_server': server, '_db': db, '_collection': collection] %}">{{ collection }}</a>
+											</span>
+										</li>
 									{% endfor %}
 								</ul>
 							{% endif %}

@@ -1,6 +1,19 @@
 mongo:
   pattern: /mongo
-  defaults:
-    _controller: mongo_admin_controller:index
-  requirements:
-    _method: get
+  defaults: { _controller: mongo_admin_controller:index }
+
+mongo_server:
+  pattern: /mongo/view/:_server
+  defaults: { _controller: mongo_admin_controller:index }
+
+mongo_db:
+  pattern: /mongo/view/:_server/:_db
+  defaults: { _controller: mongo_admin_controller:index }
+
+mongo_collection:
+  pattern: /mongo/view/:_server/:_db/:_collection
+  defaults: { _controller: mongo_admin_controller: index }
+
+mongo_document:
+  pattern: /mongo/view/:_server/:_db/:_collection/:_id
+  defaults: { _controller: mongo_admin_controller: index }
