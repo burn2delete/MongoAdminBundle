@@ -1,0 +1,7 @@
+{% extends "MongoAdminBundle:layout:layout.twig" %}
+
+{% block content %}
+    {% for database in databases %}
+		{{ database.name }}<br />
+	{% endfor %}
+{% endblock %}

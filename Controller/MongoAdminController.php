@@ -22,7 +22,15 @@ class MongoAdminController {
     public function index() {
         $collections = $this->mongoManager->getCollectionsArray();
 
-        $content = $this->templating->render('MongoAdminBundle:index:index.twig', array('collections' => $collections));
+        $content = $this->templating->render('MongoAdminBundle:view:index.twig', array('collections' => $collections));
+        return new Response($content, 200);
+    }
+
+    public function viewServer($server) {
+        $documentManager = $this->mongoManager->getDocumentManagerByName($server);
+        $databases = $documentManager->getMongo()->listDBs();
+
+        $content = $this->templating->render('MongoAdminBundle:view:server.twig', array('databases' => $databases['databases']));
         return new Response($content, 200);
     }
 }

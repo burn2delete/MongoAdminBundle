@@ -43,6 +43,16 @@ class MongoManager {
         return $collections;
     }
 
+    public function getDocumentManagerByName($name) {
+        foreach ($this->documentManagers as $serviceId => $service) {
+            if ($name === $this->convertServiceIdToName($serviceId)) {
+                return $service;
+            }
+        }
+
+        return null;
+    }
+
     protected function convertServiceIdToName($serviceId) {
         $parts = explode('.', $serviceId);
         $parts = explode('_', end($parts));
