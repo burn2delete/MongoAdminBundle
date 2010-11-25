@@ -1,0 +1,4 @@
+mongo_admin.config:
+  servers:
+    server_one: localhost:27017
+    server_two: localhost:27017

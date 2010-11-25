@@ -27,7 +27,7 @@ class MongoAdminExtension extends Extension {
 
     protected function loadMongoInstance($name, $connection, ContainerBuilder $container) {
         if (substr($connection, 0, 8) !== 'mongodb:') {
-            $connection = 'mongodb:' . $connection;
+            $connection = 'mongodb://' . $connection;
         }
 
         $mongo = new Definition('%mongo_admin.mongo.class%', array(
