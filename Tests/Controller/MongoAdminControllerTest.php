@@ -9,7 +9,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
     protected $engine;
     protected $mongoManager;
 
-    protected function setUp() {
+    public function setUp() {
         $this->request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
             ->disableOriginalConstructor()
             ->getMock();
