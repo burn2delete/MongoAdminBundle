@@ -27,8 +27,8 @@ class MongoAdminController {
     }
 
     public function viewServer($server) {
-        $documentManager = $this->mongoManager->getDocumentManagerByName($server);
-        $databases = $documentManager->getMongo()->listDBs();
+        $mongo = $this->mongoManager->getMongo($server);
+        $databases = $mongo->listDBs();
 
         $content = $this->templating->render('MongoAdminBundle:view:server.twig', array('databases' => $databases['databases']));
         return new Response($content, 200);

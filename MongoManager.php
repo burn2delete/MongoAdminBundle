@@ -5,61 +5,39 @@ namespace Bundle\MongoAdminBundle;
 use Symfony\Component\DependencyInjection\Container;
 
 class MongoManager {
-
-    const SERVICE_TAG = 'doctrine.odm.mongodb.document_manager';
     
-    protected $container;
-    protected $documentManagers = array();
+    protected $mongos = array();
 
-    public function __construct(container $container) {
-        $this->container = $container;
+    public function addMongo($name, \Mongo $mongo) {
+        $this->mongos[$name] = $mongo;
+    }
 
-        foreach ($this->container->findTaggedServiceIds(static::SERVICE_TAG) as $serviceId => $tag) {
-            $this->documentManagers[$serviceId] = $this->container->get($serviceId);
-        }
+    public function getMongo($name) {
+        if (isset($this->mongos[$name])) {
+            return $this->mongos[$name];
+        } 
+
+        return null;
     }
 
     public function getCollectionsArray() {
         $collections = array();
 
-        foreach ($this->documentManagers as $serviceId => $documentManager) {
-            $serviceId = $this->convertServiceIdToName($serviceId);
-            $collections[$serviceId] = array();
-
-            $mongo = $documentManager->getMongo();
+        foreach ($this->mongos as $name => $mongo) {
+            $collections[$name] = array();
             $databases = $mongo->listDBs();
 
             foreach ($databases['databases'] as $database) {
                 $db = $mongo->selectDB($database['name']);
 
-                $collections[$serviceId][$database['name']] = array();
+                $collections[$name][$database['name']] = array();
 
                 foreach ($db->listCollections() as $collection) {
-                    $collections[$serviceId][$database['name']][] = $collection->getName();
+                    $collections[$name][$database['name']][] = $collection->getName();
                 }
             }
         }
 
         return $collections;
-    }
-
-    public function getDocumentManagerByName($name) {
-        foreach ($this->documentManagers as $serviceId => $service) {
-            if ($name === $this->convertServiceIdToName($serviceId)) {
-                return $service;
-            }
-        }
-
-        return null;
-    }
-
-    protected function convertServiceIdToName($serviceId) {
-        $parts = explode('.', $serviceId);
-        $parts = explode('_', end($parts));
-
-        array_pop($parts);
-        array_pop($parts);
-
-        return implode('_', $parts);
     }
 }
