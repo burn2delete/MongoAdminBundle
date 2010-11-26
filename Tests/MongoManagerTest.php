@@ -85,6 +85,41 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->mongoManager->getServerDb('test', 'test'));
     }
 
+    public function testGetCollection() {
+        $server = 'server_one';
+        $dbName = 'db_one';
+        $collectionName = 'testCollection';
+
+        $mongo = $this->getMockBuilder('Mongo')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $db = $this->getMockBuilder('MongoDB')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $collection = $this->getMockBuilder('MongoCollection')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mongo->expects($this->once())
+            ->method('selectDb')
+            ->with($dbName)
+            ->will($this->returnValue($db));
+
+        $db->expects($this->once())
+            ->method('selectCollection')
+            ->with($collectionName)
+            ->will($this->returnValue($collection));
+
+        $this->mongoManager->addMongo($server, $mongo);
+        $this->assertSame($collection, $this->mongoManager->getCollection($server, $dbName, $collectionName));
+    }
+
+    public function testGetCollectionReturnsNullOnNoServer() {
+        $this->assertNull($this->mongoManager->getCollection('test', 'test', 'test'));
+    }
+
     public function testGetCollectionsArray() {
         $expected = array('test_mongo' => array(
             'test_db' => array('collection_one', 'collection_two')

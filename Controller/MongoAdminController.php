@@ -30,9 +30,9 @@ class MongoAdminController {
         $serverData = $this->mongoManager->getServerData($server);
 
         $content = $this->templating->render(
-            'MongoAdminBundle:view:server.twig', 
+            'MongoAdminBundle:view:server.twig',
             array(
-                'server' => $server, 
+                'server' => $server,
                 'serverData' => $serverData
             )
         );
@@ -45,11 +45,27 @@ class MongoAdminController {
         $collections = $mongoDb->listCollections();
 
         $content = $this->templating->render(
-            'MongoAdminBundle:view:db.twig', 
+            'MongoAdminBundle:view:db.twig',
             array(
                 'server' => $server,
-                'db' => $db, 
+                'db' => $db,
                 'collections' => $collections
+            )
+        );
+
+        return new Response($content, 200);
+    }
+
+    public function viewCollection($server, $db, $collection) {
+        $mongoCollection = $this->mongoManager->getCollection($server, $db, $collection);
+
+        $content = $this->templating->render(
+            'MongoAdminBundle:view:collection.twig',
+            array(
+                'server' => $server,
+                'db' => $db,
+                'collection' => $collection,
+                'cursor' => $mongoCollection->find()
             )
         );
 

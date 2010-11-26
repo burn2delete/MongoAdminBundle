@@ -42,6 +42,14 @@ class MongoManager {
         return $mongo->selectDb($db);
     }
 
+    public function getCollection($server, $db, $collection) {
+        if (($mongoDb = $this->getServerDb($server, $db)) === null) {
+            return null;
+        }
+
+        return $mongoDb->selectCollection($collection);
+    }
+
     public function getCollectionsArray() {
         $collections = array();
 

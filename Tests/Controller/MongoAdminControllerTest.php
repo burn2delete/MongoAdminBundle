@@ -92,4 +92,38 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals($template, $response->getContent());
     }
+
+    public function testViewCollection() {
+        $template = 'test string';
+        $server = 'server_one';
+        $db = 'test_db';
+        $collection = 'test_collection';
+
+        $mongoCollection = $this->getMockBuilder('MongoCollection')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mongoCursor = $this->getMockBuilder('MongoCursor')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->mongoManager->expects($this->once())
+            ->method('getCollection')
+            ->with($server, $db, $collection)
+            ->will($this->returnValue($mongoCollection));
+
+        $mongoCollection->expects($this->once())
+            ->method('find')
+            ->will($this->returnValue($mongoCursor));
+
+        $this->engine->expects($this->once())
+            ->method('render')
+            ->with('MongoAdminBundle:view:collection.twig', array('server' => $server, 'db' => $db, 'collection' => $collection, 'cursor' => $mongoCursor))
+            ->will($this->returnValue($template));
+
+        $response = $this->controller->viewCollection($server, $db, $collection);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals($template, $response->getContent());
+    }
 }

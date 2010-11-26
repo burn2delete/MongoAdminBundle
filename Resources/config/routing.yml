@@ -12,8 +12,8 @@ mongo_db:
 
 mongo_collection:
   pattern: /mongo/view/:server/:db/:collection
-  defaults: { _controller: mongo_admin_controller: viewCollection }
+  defaults: { _controller: mongo_admin_controller:viewCollection }
 
 mongo_document:
   pattern: /mongo/view/:server/:db/:collection/:id
-  defaults: { _controller: mongo_admin_controller: viewDb }
+  defaults: { _controller: mongo_admin_controller:viewDocument }
