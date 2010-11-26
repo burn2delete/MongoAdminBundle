@@ -62,4 +62,34 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals($template, $response->getContent());
     }
+
+    public function testViewDb() {
+        $collections = array('test' => 'test');
+        $template = 'test string';
+        $server = 'server_one';
+        $db = 'test_db';
+
+        $mongoDb = $this->getMockBuilder('MongoDB')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->mongoManager->expects($this->once())
+            ->method('getServerDb')
+            ->with($server, $db)
+            ->will($this->returnValue($mongoDb));
+
+        $mongoDb->expects($this->once())
+            ->method('listCollections')
+            ->will($this->returnValue($collections));
+
+        $this->engine->expects($this->once())
+            ->method('render')
+            ->with('MongoAdminBundle:view:db.twig', array('server' => $server, 'db' => $db, 'collections' => $collections))
+            ->will($this->returnValue($template));
+
+        $response = $this->controller->viewDb($server, $db);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals($template, $response->getContent());
+    }
 }

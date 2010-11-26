@@ -14,7 +14,7 @@
 									{% for collection in names %}
 										<li{% if loop.last == true %} class="last"{% endif %}>
 											<span class="file">
-												<a href="{% path 'mongo_db' with ['server': server, 'db': db, 'collection': collection] %}">{{ collection }}</a>
+												<a href="{% path 'mongo_collection' with ['server': server, 'db': db, 'collection': collection] %}">{{ collection }}</a>
 											</span>
 										</li>
 									{% endfor %}

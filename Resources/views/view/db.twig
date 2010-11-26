@@ -1,0 +1,21 @@
+{% extends "MongoAdminBundle:layout:layout.twig" %}
+
+{% block content %}
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Documents</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for collection in collections %}
+				<tr>
+					<td><a href="{% path 'mongo_collection' with ['server': server, 'db': db, 'collection': collection.name] %}">{{ collection.name }}</a></td>
+					<td>{{ collection.count }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

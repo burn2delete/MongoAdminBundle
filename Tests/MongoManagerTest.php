@@ -60,6 +60,31 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->mongoManager->getServerData('test'));
     }
 
+    public function testGetServerDb() {
+        $server = 'server_one';
+        $dbName = 'db_one';
+
+        $mongo = $this->getMockBuilder('Mongo')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $db = $this->getMockBuilder('MongoDB')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mongo->expects($this->once())
+            ->method('selectDb')
+            ->with($dbName)
+            ->will($this->returnValue($db));
+
+        $this->mongoManager->addMongo($server, $mongo);
+        $this->assertSame($db, $this->mongoManager->getServerDb($server, $dbName));
+    }
+
+    public function testGetServerDbReturnsNullOnNoServer() {
+        $this->assertNull($this->mongoManager->getServerDb('test', 'test'));
+    }
+
     public function testGetCollectionsArray() {
         $expected = array('test_mongo' => array(
             'test_db' => array('collection_one', 'collection_two')

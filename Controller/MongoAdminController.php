@@ -39,4 +39,20 @@ class MongoAdminController {
 
         return new Response($content, 200);
     }
+
+    public function viewDb($server, $db) {
+        $mongoDb = $this->mongoManager->getServerDb($server, $db);
+        $collections = $mongoDb->listCollections();
+
+        $content = $this->templating->render(
+            'MongoAdminBundle:view:db.twig', 
+            array(
+                'server' => $server,
+                'db' => $db, 
+                'collections' => $collections
+            )
+        );
+
+        return new Response($content, 200);
+    }
 }
