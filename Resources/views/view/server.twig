@@ -1,7 +1,11 @@
 {% extends "MongoAdminBundle:layout:layout.twig" %}
 
+{% block resources %}
+	{% javascript 'bundles/mongoadmin/js/jquery.tablesorter.js' %}
+{% endblock %}
+
 {% block content %}
-	<table>
+	<table class="tablesorter">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -14,8 +18,20 @@
 				<tr>
 					<td><a href="{% path 'mongo_db' with ['server': server, 'db': database.name] %}">{{ database.name }}</a></td>
 					<td>{{ database.collections }}</td>
+					<td></td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+
+	<script type="text/javascript">
+		$(function() {
+			$('.tablesorter').tablesorter({
+				headers: {
+					2: { sorter: false }
+				},
+				sortList: [[0,0]]
+			});
+		});
+	</script>
 {% endblock %}
