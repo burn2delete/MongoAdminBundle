@@ -50,6 +50,14 @@ class MongoManager {
         return $mongoDb->selectCollection($collection);
     }
 
+    public function getDocumentById($server, $db, $collection, $id) {
+        if (($collection = $this->getCollection($server, $db, $collection)) === null) {
+            return null;
+        }
+
+        return $collection->findOne(array('_id' => new \MongoId($id)));
+    }
+
     public function getCollectionsArray() {
         $collections = array();
 

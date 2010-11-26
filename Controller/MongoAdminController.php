@@ -71,4 +71,18 @@ class MongoAdminController {
 
         return new Response($content, 200);
     }
+
+    public function viewDocument($server, $db, $collection, $id) {
+        $document = $this->mongoManager->getDocumentById($server, $db, $collection, $id);
+
+        $content = $this->templating->render(
+            'MongoAdminBundle:view:document.twig',
+            array(
+                'document' => $document,
+                'documentPreview' => print_r($document, true),
+            )
+        );
+
+        return new Response($content, 200);
+    }
 }

@@ -126,4 +126,28 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals($template, $response->getContent());
     }
+
+    public function testViewDocument() {
+        $template = 'test string';
+        $server = 'server_one';
+        $db = 'test_db';
+        $collection = 'test_collection';
+        $id = 'abc123';
+        $document = array('_id' => $id);
+
+        $this->mongoManager->expects($this->once())
+            ->method('getDocumentById')
+            ->with($server, $db, $collection, $id)
+            ->will($this->returnValue($document));
+
+        $this->engine->expects($this->once())
+            ->method('render')
+            ->with('MongoAdminBundle:view:document.twig', array('document' => $document, 'documentPreview' => print_r($document, true)))
+            ->will($this->returnValue($template));
+
+        $response = $this->controller->viewDocument($server, $db, $collection, $id);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals($template, $response->getContent());
+    }
 }

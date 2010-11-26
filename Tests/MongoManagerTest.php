@@ -120,6 +120,48 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->mongoManager->getCollection('test', 'test', 'test'));
     }
 
+    public function testGetDocumentById() {
+        $server = 'server_one';
+        $dbName = 'db_one';
+        $collectionName = 'testCollection';
+        $id = '4cf033c2a91a834a7d000000';
+        $document = array('_id' => $id);
+
+        $mongo = $this->getMockBuilder('Mongo')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $db = $this->getMockBuilder('MongoDB')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $collection = $this->getMockBuilder('MongoCollection')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mongo->expects($this->once())
+            ->method('selectDb')
+            ->with($dbName)
+            ->will($this->returnValue($db));
+
+        $db->expects($this->once())
+            ->method('selectCollection')
+            ->with($collectionName)
+            ->will($this->returnValue($collection));
+
+        $collection->expects($this->once())
+            ->method('findOne')
+            ->with(array('_id' => new \MongoId($id)))
+            ->will($this->returnValue($document));
+
+        $this->mongoManager->addMongo($server, $mongo);
+        $this->assertSame($document, $this->mongoManager->getDocumentById($server, $dbName, $collectionName, $id));
+    }
+
+    public function testGetDocumentByIdReturnsNullOnNoServer() {
+        $this->assertNull($this->mongoManager->getDocumentById('test', 'test', 'test', 'test'));
+    }
+
     public function testGetCollectionsArray() {
         $expected = array('test_mongo' => array(
             'test_db' => array('collection_one', 'collection_two')
