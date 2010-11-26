@@ -27,10 +27,9 @@ class MongoAdminController {
     }
 
     public function viewServer($server) {
-        $mongo = $this->mongoManager->getMongo($server);
-        $databases = $mongo->listDBs();
+        $serverData = $this->mongoManager->getServerData($server);
 
-        $content = $this->templating->render('MongoAdminBundle:view:server.twig', array('databases' => $databases['databases']));
+        $content = $this->templating->render('MongoAdminBundle:view:server.twig', array('server' => $serverData));
         return new Response($content, 200);
     }
 }

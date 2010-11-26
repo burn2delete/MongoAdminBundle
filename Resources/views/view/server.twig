@@ -1,7 +1,21 @@
 {% extends "MongoAdminBundle:layout:layout.twig" %}
 
 {% block content %}
-    {% for database in databases %}
-		{{ database.name }}<br />
-	{% endfor %}
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Collections</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for database in server['databases'] %}
+				<tr>
+					<td>{{ database.name }}</td>
+					<td>{{ database.collections }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 {% endblock %}

@@ -23,6 +23,43 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->mongoManager->getMongo('not_set'));
     }
 
+    public function testGetServerData() {
+        $expectedNoCollections = array('databases' => array(array('name' => 'test')));
+
+        $expected = array('databases' => array(array(
+            'name' => 'test',
+            'collections' => 0,
+        )));
+
+        $mongo = $this->getMockBuilder('Mongo')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $db = $this->getMockBuilder('MongoDB')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mongo->expects($this->once())
+            ->method('listDBs')
+            ->will($this->returnValue($expectedNoCollections));
+
+        $mongo->expects($this->once())
+            ->method('selectDb')
+            ->with('test')
+            ->will($this->returnValue($db));
+
+        $db->expects($this->once())
+            ->method('listCollections')
+            ->will($this->returnValue(array()));
+
+        $this->mongoManager->addMongo('test', $mongo);
+        $actual = $this->mongoManager->getServerData('test');
+    }
+
+    public function testGetServerDataReturnsNullOnNoServer() {
+        $this->assertNull($this->mongoManager->getServerData('test'));
+    }
+
     public function testGetCollectionsArray() {
         $expected = array('test_mongo' => array(
             'test_db' => array('collection_one', 'collection_two')

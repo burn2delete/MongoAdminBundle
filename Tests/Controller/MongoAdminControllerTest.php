@@ -43,26 +43,18 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testViewServer() {
-        $databases = array('test' => 'test');
+        $serverData = array('databases' => array('name' => 'test', 'collections' => 0));
         $template = 'test string';
         $server = 'server_one';
 
-        $mongo = $this->getMockBuilder('Mongo')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->mongoManager->expects($this->once())
-            ->method('getMongo')
+            ->method('getServerData')
             ->with($server)
-            ->will($this->returnValue($mongo));
-
-        $mongo->expects($this->once())
-            ->method('listDBs')
-            ->will($this->returnValue(array('databases' => $databases)));
+            ->will($this->returnValue($serverData));
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:server.twig', array('databases' => $databases))
+            ->with('MongoAdminBundle:view:server.twig', array('server' => $serverData))
             ->will($this->returnValue($template));
 
         $response = $this->controller->viewServer($server);

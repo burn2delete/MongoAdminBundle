@@ -20,6 +20,20 @@ class MongoManager {
         return null;
     }
 
+    public function getServerData($server) {
+        if (($mongo = $this->getMongo($server)) === null) {
+            return null;
+        }
+
+        $databases = $mongo->listDBs();
+
+        foreach ($databases['databases'] as $i => $database) {
+            $databases['databases'][$i]['collections'] = count($mongo->selectDb($database['name'])->listCollections());
+        }
+
+        return $databases;
+    }
+
     public function getCollectionsArray() {
         $collections = array();
 
