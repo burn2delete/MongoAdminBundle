@@ -29,7 +29,14 @@ class MongoAdminController {
     public function viewServer($server) {
         $serverData = $this->mongoManager->getServerData($server);
 
-        $content = $this->templating->render('MongoAdminBundle:view:server.twig', array('server' => $serverData));
+        $content = $this->templating->render(
+            'MongoAdminBundle:view:server.twig', 
+            array(
+                'server' => $server, 
+                'serverData' => $serverData
+            )
+        );
+
         return new Response($content, 200);
     }
 }

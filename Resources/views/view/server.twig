@@ -10,9 +10,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for database in server['databases'] %}
+			{% for database in serverData['databases'] %}
 				<tr>
-					<td>{{ database.name }}</td>
+					<td><a href="{% path 'mongo_db' with ['server': server, 'db': database.name] %}">{{ database.name }}</a></td>
 					<td>{{ database.collections }}</td>
 				</tr>
 			{% endfor %}
