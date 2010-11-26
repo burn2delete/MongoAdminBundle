@@ -32,33 +32,16 @@ html {
 
 #footer { clear: both; }
 
-table.tablesorter {
+table {
 	font-family: arial;
 	background-color: #FFFFFF;
 	margin: 10px 0pt 15px;
 	width: 95%;
 	text-align: left;
+	color: #000;
 
 	thead {
 		tr {
-			.header {
-				background-image: url(../images/tablesorter/bg.gif);
-				background-repeat: no-repeat;
-				background-position: center right;
-				cursor: pointer;
-				color: #000;
-			}
-
-			.headerSortUp {
-				background-color: #8dbdd8;
-				background-image: url(../images/tablesorter/asc.gif);
-			}
-
-			.headerSortDown {
-				background-color: #8dbdd8;
-				background-image: url(../images/tablesorter/desc.gif);
-			}
-
 			th {
 				background-color: #e6EEEE;
 				border: 1px solid #FFF;
@@ -69,7 +52,7 @@ table.tablesorter {
 
 	tbody {
 		tr:hover {
-		    background: #EEEEEE;
+			background: #EEEEEE;
 		}
 
 		td {
@@ -77,6 +60,29 @@ table.tablesorter {
 			padding: 4px;
 			vertical-align: top;
 			border-top: 1px solid #CCCCCC;
+		}
+	}
+}
+
+table.tablesorter {
+	thead {
+		tr {
+			th.header {
+				background-image: url(../images/tablesorter/bg.gif);
+				background-repeat: no-repeat;
+				background-position: center right;
+				cursor: pointer;
+			}
+
+			th.headerSortUp {
+					background-color: #8dbdd8;
+					background-image: url(../images/tablesorter/asc.gif);
+			}
+
+			th.headerSortDown {
+					background-color: #8dbdd8;
+					background-image: url(../images/tablesorter/desc.gif);
+			}
 		}
 	}
 }
