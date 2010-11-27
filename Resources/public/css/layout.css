@@ -1,4 +1,5 @@
 html { background: #495a7e; }
+a { color: #3370c9; }
 #header {
   background: #ffffff;
   padding-bottom: 2px;
@@ -28,6 +29,7 @@ html { background: #495a7e; }
   clear: both;
   background: #ffffff;
   text-align: center;
+  padding: 10px 0;
 }
 #breadcrumb {
   margin-bottom: 10px;
