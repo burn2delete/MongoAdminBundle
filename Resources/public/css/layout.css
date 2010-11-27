@@ -24,7 +24,11 @@ html { background: #495a7e; }
   padding-left: 365px;
   padding-top: 5px;
 }
-#footer { clear: both; }
+#footer {
+  clear: both;
+  background: #ffffff;
+  text-align: center;
+}
 #breadcrumb {
   margin-bottom: 10px;
   font-weight: bold;
