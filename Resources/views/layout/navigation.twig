@@ -1,18 +1,18 @@
 {% set collections = _view.mongo_manager.getCollections %}
 
-<ul id="navigation-tree" class="treeview">
+<ul id="navigation-tree">
 	{% for server, dbs in collections %}
-		<li class="{% if dbs|length > 0 %}collapsable{% endif %}{% if loop.last == true %} last{% endif %}">
-			<span><a href="{% path 'mongo_server' with ['server': server] %}">{{ server }}</a></span>
+		<li class="server-branch">
+			<span class="server-label"><a href="{% path 'mongo_server' with ['server': server] %}">{{ server }}</a></span>
 			{% if dbs|length > 0 %}
 				<ul>
 					{% for db, names in dbs %}
-						<li class="{% if names|length > 0 %}collapsable{% endif %}{% if loop.last == true %} last{% endif %}">
+						<li>
 							<span><a href="{% path 'mongo_db' with ['server': server, 'db': db] %}">{{ db }}</a></span>
 							{% if names|length > 0 %}
 								<ul>
 									{% for collection in names %}
-										<li{% if loop.last == true %} class="last"{% endif %}>
+										<li>
 											<span>
 												<a href="{% path 'mongo_collection' with ['server': server, 'db': db, 'collection': collection] %}">{{ collection }}</a>
 											</span>

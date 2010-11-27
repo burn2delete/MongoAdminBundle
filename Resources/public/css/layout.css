@@ -4,7 +4,11 @@ html { background: #495a7e; }
   padding-bottom: 2px;
   padding-left: 10px;
 }
-#header h1 { font-size: 30px; }
+#header h1 {
+  font-size: 35px;
+  font-weight: bold;
+  padding-top: 10px;
+}
 #navigation {
   background: #ffffff;
   padding-left: 10px;
@@ -12,6 +16,9 @@ html { background: #495a7e; }
   float: left;
   overflow: auto;
 }
+#navigation-tree li { margin-left: 15px; }
+#navigation-tree .server-branch { margin-bottom: 10px; }
+#navigation-tree .server-branch .server-label { font-weight: bold; }
 #content {
   color: #ffffff;
   padding-left: 365px;
