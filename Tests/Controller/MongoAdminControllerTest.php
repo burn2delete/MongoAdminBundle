@@ -142,7 +142,17 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:document.twig', array('document' => $document, 'documentPreview' => print_r($document, true)))
+            ->with(
+                'MongoAdminBundle:view:document.twig',
+                array(
+                    'server' => $server,
+                    'db' => $db,
+                    'collection' => $collection,
+                    'id' => $id,
+                    'document' => $document,
+                    'documentPreview' => print_r($document, true)
+                )
+            )
             ->will($this->returnValue($template));
 
         $response = $this->controller->viewDocument($server, $db, $collection, $id);

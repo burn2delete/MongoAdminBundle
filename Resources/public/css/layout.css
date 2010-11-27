@@ -18,6 +18,13 @@ html { background: #495a7e; }
   padding-top: 5px;
 }
 #footer { clear: both; }
+#breadcrumb {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 30px;
+}
+#breadcrumb a { color: #ffffff; }
+#breadcrumb a:hover { color: #cccccc; }
 table {
   font-family: arial;
   background-color: #ffffff;

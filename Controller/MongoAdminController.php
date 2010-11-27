@@ -78,6 +78,10 @@ class MongoAdminController {
         $content = $this->templating->render(
             'MongoAdminBundle:view:document.twig',
             array(
+                'server' => $server,
+                'db' => $db,
+                'collection' => $collection,
+                'id' => $id,
                 'document' => $document,
                 'documentPreview' => print_r($document, true),
             )
