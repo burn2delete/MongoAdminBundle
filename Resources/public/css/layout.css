@@ -13,7 +13,7 @@ a { color: #3370c9; }
 #navigation {
   background: #ffffff;
   padding-left: 10px;
-  width: 350px;
+  width: 250px;
   float: left;
   overflow: auto;
 }
@@ -22,7 +22,7 @@ a { color: #3370c9; }
 #navigation-tree .server-branch .server-label { font-weight: bold; }
 #content {
   color: #ffffff;
-  padding-left: 365px;
+  padding-left: 280px;
   padding-top: 5px;
 }
 #footer {
