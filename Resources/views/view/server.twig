@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+	{% include "MongoAdminBundle:layout:breadcrumb.twig" with ['server': server] %}
+
 	<table class="tablesorter">
 		<thead>
 			<tr>

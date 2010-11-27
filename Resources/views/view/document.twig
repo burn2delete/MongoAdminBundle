@@ -1,12 +1,7 @@
 {% extends "MongoAdminBundle:layout:layout.twig" %}
 
 {% block content %}
-	<h2 id="breadcrumb">
-		<a href="{% path 'mongo_server' with ['server': server] %}">{{ server }}</a> / 
-		<a href="{% path 'mongo_db' with ['server': server, 'db': db] %}">{{ db }}</a> / 
-		<a href="{% path 'mongo_collection' with ['server': server, 'db': db, 'collection': collection] %}">{{ collection }}</a> /
-		{{ id }}
-	</h2>
+	{% include "MongoAdminBundle:layout:breadcrumb.twig" with ['server': server, 'db': db, 'collection': collection, 'id': id] %}
 
 	<div class="documentPreview">
 		<pre><code>{{ documentPreview }}</code></pre>
