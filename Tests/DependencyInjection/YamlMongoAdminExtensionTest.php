@@ -16,6 +16,7 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Mongo', $container->getParameter('mongo_admin.mongo.class'));
         $this->assertEquals('Bundle\MongoAdminBundle\MongoManager', $container->getParameter('mongo_admin.mongo_manager.class'));
         $this->assertEquals('Bundle\MongoAdminBundle\Helper\MongoManagerHelper', $container->getParameter('mongo_admin.helper.mongo_manager.class'));
+        $this->assertEquals('Bundle\MongoAdminBundle\Proxy\ProxyFactory', $container->getParameter('mongo_admin.proxy_factory.class'));
         $this->assertEquals('Bundle\MongoAdminBundle\Controller\MongoAdminController', $container->getParameter('mongo_admin_controller_class'));
 
         $definition = $container->getDefinition('mongo_admin.mongo_manager');
@@ -24,6 +25,9 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
         $definition = $container->getDefinition('mongo_admin.helper.mongo_manager');
         $this->assertEquals('%mongo_admin.helper.mongo_manager.class%', $definition->getClass());
         $this->assertArrayHasKey('templating.helper', $definition->getTags());
+
+        $definition = $container->getDefinition('mongo_admin.proxy_factory');
+        $this->assertEquals('%mongo_admin.proxy_factory.class%', $definition->getClass());
     }
 
     public function testSingleServer() {

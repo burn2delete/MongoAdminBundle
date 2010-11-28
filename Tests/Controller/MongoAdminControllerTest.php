@@ -18,7 +18,9 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mongoManager = $this->getMock('Bundle\MongoAdminBundle\MongoManager');
+        $this->mongoManager = $this->getMockBuilder('Bundle\MongoAdminBundle\MongoManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->controller = new MongoAdminController($this->request, $this->engine, $this->mongoManager);
     }

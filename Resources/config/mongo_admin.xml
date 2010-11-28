@@ -8,11 +8,17 @@
         <parameter key="mongo_admin.mongo.class">Mongo</parameter>
         <parameter key="mongo_admin.mongo_manager.class">Bundle\MongoAdminBundle\MongoManager</parameter>
         <parameter key="mongo_admin.helper.mongo_manager.class">Bundle\MongoAdminBundle\Helper\MongoManagerHelper</parameter>
+        <parameter key="mongo_admin.proxy_factory.class">Bundle\MongoAdminBundle\Proxy\ProxyFactory</parameter>
+
         <parameter key="mongo_admin_controller_class">Bundle\MongoAdminBundle\Controller\MongoAdminController</parameter>
     </parameters>
 
     <services>
-        <service id="mongo_admin.mongo_manager" class="%mongo_admin.mongo_manager.class%" />
+        <service id="mongo_admin.proxy_factory" class="%mongo_admin.proxy_factory.class%" />
+
+        <service id="mongo_admin.mongo_manager" class="%mongo_admin.mongo_manager.class%">
+            <argument type="service" id="mongo_admin.proxy_factory" />
+        </service>
 
         <service id="mongo_admin.helper.mongo_manager" class="%mongo_admin.helper.mongo_manager.class%">
             <tag name="templating.helper" alias="mongo_manager" />

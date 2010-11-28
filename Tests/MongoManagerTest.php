@@ -5,9 +5,12 @@ namespace Bundle\MongoAdminBundle;
 class MongoManagerTest extends \PHPUnit_Framework_TestCase {
 
     protected $mongoManager;
+    protected $proxyFactory;
 
     public function setUp() {
-        $this->mongoManager = new MongoManager();
+        $this->proxyFactory = $this->getMock('Bundle\MongoAdminBundle\Proxy\ProxyFactory');
+
+        $this->mongoManager = new MongoManager($this->proxyFactory);
     }
 
     public function testSetGetMongo() {
@@ -171,7 +174,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mongoDb = $this->getMockBuilder('MongoDB')
+        $database = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Database')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -187,12 +190,12 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             ->method('listDBs')
             ->will($this->returnValue(array('databases' => array(array('name' => 'test_db')))));
 
-        $mongo->expects($this->once())
-            ->method('selectDb')
-            ->with('test_db')
-            ->will($this->returnValue($mongoDb));
+        $this->proxyFactory->expects($this->once())
+            ->method('getDatabase')
+            ->with($mongo, 'test_db')
+            ->will($this->returnValue($database));
 
-        $mongoDb->expects($this->once())
+        $database->expects($this->once())
             ->method('listCollections')
             ->will($this->returnValue(array($collectionOne, $collectionTwo)));
 
