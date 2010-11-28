@@ -41,7 +41,7 @@ class MongoManager {
         return $databases;
     }
 
-    public function getServerDb($server, $db) {
+    public function getDatabase($server, $db) {
         if (($mongo = $this->getMongo($server)) === null) {
             return null;
         }
@@ -50,7 +50,7 @@ class MongoManager {
     }
 
     public function getCollection($server, $db, $collection) {
-        if (($mongoDb = $this->getServerDb($server, $db)) === null) {
+        if (($mongoDb = $this->getDatabase($server, $db)) === null) {
             return null;
         }
 

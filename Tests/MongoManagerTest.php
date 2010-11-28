@@ -57,7 +57,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->mongoManager->getDatabases('test'));
     }
 
-    public function testGetServerDb() {
+    public function testGetDatabase() {
         $server = 'server_one';
         $dbName = 'db_one';
 
@@ -75,11 +75,11 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             ->will($this->returnValue($db));
 
         $this->mongoManager->addMongo($server, $mongo);
-        $this->assertSame($db, $this->mongoManager->getServerDb($server, $dbName));
+        $this->assertSame($db, $this->mongoManager->getDatabase($server, $dbName));
     }
 
-    public function testGetServerDbReturnsNullOnNoServer() {
-        $this->assertNull($this->mongoManager->getServerDb('test', 'test'));
+    public function testGetDatabaseReturnsNullOnNoServer() {
+        $this->assertNull($this->mongoManager->getDatabase('test', 'test'));
     }
 
     public function testGetCollection() {

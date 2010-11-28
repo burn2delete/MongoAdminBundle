@@ -76,7 +76,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
             ->getMock();
 
         $this->mongoManager->expects($this->once())
-            ->method('getServerDb')
+            ->method('getDatabase')
             ->with($server, $db)
             ->will($this->returnValue($mongoDb));
 

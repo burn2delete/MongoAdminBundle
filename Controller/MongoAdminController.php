@@ -41,7 +41,7 @@ class MongoAdminController {
     }
 
     public function viewDb($server, $db) {
-        $mongoDb = $this->mongoManager->getServerDb($server, $db);
+        $mongoDb = $this->mongoManager->getDatabase($server, $db);
         $collections = $mongoDb->listCollections();
 
         $content = $this->templating->render(
