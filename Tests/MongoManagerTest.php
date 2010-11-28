@@ -26,41 +26,35 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($this->mongoManager->getMongo('not_set'));
     }
 
-    public function testGetServerData() {
-        $expectedNoCollections = array('databases' => array(array('name' => 'test')));
-
-        $expected = array('databases' => array(array(
-            'name' => 'test',
-            'collections' => 0,
-        )));
-
+    public function testGetDatabases() {
         $mongo = $this->getMockBuilder('Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $db = $this->getMockBuilder('MongoDB')
+        $db = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Database')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $expectedNoCollections = array('databases' => array(array('name' => 'test')));
+        $expected = array('test' => $db);
 
         $mongo->expects($this->once())
             ->method('listDBs')
             ->will($this->returnValue($expectedNoCollections));
 
-        $mongo->expects($this->once())
-            ->method('selectDb')
-            ->with('test')
+        $this->proxyFactory->expects($this->once())
+            ->method('getDatabase')
+            ->with($mongo, $expectedNoCollections['databases'][0])
             ->will($this->returnValue($db));
 
-        $db->expects($this->once())
-            ->method('listCollections')
-            ->will($this->returnValue(array()));
-
         $this->mongoManager->addMongo('test', $mongo);
-        $actual = $this->mongoManager->getServerData('test');
+        $actual = $this->mongoManager->getDatabases('test');
+
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetServerDataReturnsNullOnNoServer() {
-        $this->assertNull($this->mongoManager->getServerData('test'));
+    public function testGetDatabasesReturnsNullOnNoServer() {
+        $this->assertNull($this->mongoManager->getDatabases('test'));
     }
 
     public function testGetServerDb() {
@@ -192,7 +186,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
 
         $this->proxyFactory->expects($this->once())
             ->method('getDatabase')
-            ->with($mongo, 'test_db')
+            ->with($mongo, array('name' => 'test_db'))
             ->will($this->returnValue($database));
 
         $database->expects($this->once())

@@ -50,13 +50,13 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
         $server = 'server_one';
 
         $this->mongoManager->expects($this->once())
-            ->method('getServerData')
+            ->method('getDatabases')
             ->with($server)
             ->will($this->returnValue($serverData));
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:server.twig', array('server' => $server, 'serverData' => $serverData))
+            ->with('MongoAdminBundle:view:server.twig', array('server' => $server, 'databases' => $serverData))
             ->will($this->returnValue($template));
 
         $response = $this->controller->viewServer($server);

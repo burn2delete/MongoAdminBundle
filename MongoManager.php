@@ -26,15 +26,16 @@ class MongoManager {
         return null;
     }
 
-    public function getServerData($server) {
+    public function getDatabases($server) {
         if (($mongo = $this->getMongo($server)) === null) {
             return null;
         }
 
-        $databases = $mongo->listDBs();
+        $databases = array();
+        $dbList = $mongo->listDBs();
 
-        foreach ($databases['databases'] as $i => $database) {
-            $databases['databases'][$i]['collections'] = count($mongo->selectDb($database['name'])->listCollections());
+        foreach ($dbList['databases'] as $i => $database) {
+            $databases[$database['name']] = $this->proxyFactory->getDatabase($mongo, $database);
         }
 
         return $databases;
@@ -72,7 +73,7 @@ class MongoManager {
             $databases = $mongo->listDBs();
 
             foreach ($databases['databases'] as $database) {
-                $db = $this->proxyFactory->getDatabase($mongo, $database['name']);
+                $db = $this->proxyFactory->getDatabase($mongo, $database);
 
                 $collections[$name][$database['name']] = array();
 

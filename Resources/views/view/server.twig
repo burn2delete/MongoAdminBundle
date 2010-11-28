@@ -16,10 +16,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for database in serverData['databases'] %}
+			{% for database in databases %}
 				<tr>
-					<td><a href="{% path 'mongo_db' with ['server': server, 'db': database.name] %}">{{ database.name }}</a></td>
-					<td>{{ database.collections }}</td>
+					<td><a href="{% path 'mongo_db' with ['server': server, 'db': database.getName()] %}">{{ database.getName() }}</a></td>
+					<td>{{ database.count() }}</td>
 					<td></td>
 				</tr>
 			{% endfor %}

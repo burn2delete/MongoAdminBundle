@@ -27,13 +27,13 @@ class MongoAdminController {
     }
 
     public function viewServer($server) {
-        $serverData = $this->mongoManager->getServerData($server);
+        $databases = $this->mongoManager->getDatabases($server);
 
         $content = $this->templating->render(
             'MongoAdminBundle:view:server.twig',
             array(
                 'server' => $server,
-                'serverData' => $serverData
+                'databases' => $databases
             )
         );
 

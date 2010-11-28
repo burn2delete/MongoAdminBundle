@@ -10,12 +10,12 @@ class Database {
     protected $name;
     protected $mongo;
 
-    public function __construct(\Mongo $mongo, $name, $sizeOnDisk = 0) {
+    public function __construct(\Mongo $mongo, array $database) {
         $this->mongo = $mongo;
-        $this->name = $name;
+        $this->name = $database['name'];
 
-        $this->db = $mongo->selectDB($name);
-        $this->sizeOnDisk = $sizeOnDisk;
+        $this->db = $mongo->selectDB($database['name']);
+        $this->sizeOnDisk = $database['sizeOnDisk'];
     }
 
     public function getName() {

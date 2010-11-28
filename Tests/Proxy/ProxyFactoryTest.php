@@ -11,7 +11,10 @@ class ProxyFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetDatabase() {
-        $databaseName = 'test_db';
+        $data = array(
+            'name' => 'test_db',
+            'sizeOnDisk' => 123456789
+        );
 
         $mongoDb = $this->getMockBuilder('MongoDB')
             ->disableOriginalConstructor()
@@ -23,11 +26,12 @@ class ProxyFactoryTest extends \PHPUnit_Framework_TestCase {
 
         $mongo->expects($this->once())
             ->method('selectDB')
-            ->with($databaseName)
+            ->with($data['name'])
             ->will($this->returnValue($mongoDb));
 
-        $database = $this->factory->getDatabase($mongo, $databaseName);
+        $database = $this->factory->getDatabase($mongo, $data);
 
-        $this->assertEquals($databaseName, $database->getName());
+        $this->assertEquals($data['name'], $database->getName());
+        $this->assertEquals($data['sizeOnDisk'], $database->getSizeOnDisk());
     }
 }

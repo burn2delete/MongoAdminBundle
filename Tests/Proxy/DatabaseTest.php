@@ -23,7 +23,13 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
             ->with($this->databaseName)
             ->will($this->returnValue($this->mockMongoDb));
 
-        $this->database = new Database($mongo, $this->databaseName, $this->sizeOnDisk);
+        $this->database = new Database(
+            $mongo,
+            array(
+                'name' => $this->databaseName, 
+                'sizeOnDisk' => $this->sizeOnDisk
+            )
+        );
     }
 
     public function testGetSizeOnDisk() {
