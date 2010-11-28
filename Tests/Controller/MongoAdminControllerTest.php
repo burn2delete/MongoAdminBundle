@@ -7,6 +7,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
     protected $controller;
     protected $request;
     protected $engine;
+    protected $documentRenderer;
     protected $mongoManager;
 
     public function setUp() {
@@ -22,7 +23,9 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->controller = new MongoAdminController($this->request, $this->engine, $this->mongoManager);
+        $this->documentRenderer = $this->getMock('Bundle\MongoAdminBundle\Render\Document');
+
+        $this->controller = new MongoAdminController($this->request, $this->engine, $this->mongoManager, $this->documentRenderer);
     }
 
     public function testIndex() {
@@ -136,11 +139,17 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
         $collection = 'test_collection';
         $id = 'abc123';
         $document = array('_id' => $id);
+        $documentPreview = print_r($document, true);
 
         $this->mongoManager->expects($this->once())
             ->method('getDocumentById')
             ->with($server, $db, $collection, $id)
             ->will($this->returnValue($document));
+
+        $this->documentRenderer->expects($this->once())
+            ->method('preparePreview')
+            ->with($document)
+            ->will($this->returnValue($documentPreview));
 
         $this->engine->expects($this->once())
             ->method('render')
@@ -152,7 +161,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
                     'collection' => $collection,
                     'id' => $id,
                     'document' => $document,
-                    'documentPreview' => print_r($document, true)
+                    'documentPreview' => $documentPreview,
                 )
             )
             ->will($this->returnValue($template));

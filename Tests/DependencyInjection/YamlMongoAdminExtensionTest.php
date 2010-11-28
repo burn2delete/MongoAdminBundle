@@ -28,6 +28,9 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $definition = $container->getDefinition('mongo_admin.proxy_factory');
         $this->assertEquals('%mongo_admin.proxy_factory.class%', $definition->getClass());
+
+        $definition = $container->getDefinition('mongo_admin.renderer.document');
+        $this->assertEquals('%mongo_admin.renderer.document.class%', $definition->getClass());
     }
 
     public function testSingleServer() {

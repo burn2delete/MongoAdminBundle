@@ -6,17 +6,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\Engine;
 use Bundle\MongoAdminBundle\MongoManager;
+use Bundle\MongoAdminBundle\Render\Document;
 
 class MongoAdminController {
 
     protected $request;
     protected $templating;
     protected $mongoManager;
+    protected $documentRenderer;
 
-    public function __construct(Request $request, Engine $templating, MongoManager $mongoManager) {
+    public function __construct(Request $request, Engine $templating, MongoManager $mongoManager, Document $documentRenderer) {
         $this->request = $request;
         $this->templating = $templating;
         $this->mongoManager = $mongoManager;
+        $this->documentRenderer = $documentRenderer;
     }
 
     public function index() {
@@ -83,7 +86,7 @@ class MongoAdminController {
                 'collection' => $collection,
                 'id' => $id,
                 'document' => $document,
-                'documentPreview' => print_r($document, true),
+                'documentPreview' => $this->documentRenderer->preparePreview($document)
             )
         );
 

@@ -9,7 +9,8 @@
         <parameter key="mongo_admin.mongo_manager.class">Bundle\MongoAdminBundle\MongoManager</parameter>
         <parameter key="mongo_admin.helper.mongo_manager.class">Bundle\MongoAdminBundle\Helper\MongoManagerHelper</parameter>
         <parameter key="mongo_admin.proxy_factory.class">Bundle\MongoAdminBundle\Proxy\ProxyFactory</parameter>
-
+        <parameter key="mongo_admin.renderer.document.class">Bundle\MongoAdminBundle\Render\Document</parameter>
+        
         <parameter key="mongo_admin_controller_class">Bundle\MongoAdminBundle\Controller\MongoAdminController</parameter>
     </parameters>
 
@@ -25,10 +26,13 @@
             <argument type="service" id="mongo_admin.mongo_manager" />
         </service>
 
+        <service id="mongo_admin.renderer.document" class="%mongo_admin.renderer.document.class%" />
+        
         <service id="mongo_admin_controller" class="%mongo_admin_controller_class%">
             <argument type="service" id="request" />
             <argument type="service" id="templating.engine" />
             <argument type="service" id="mongo_admin.mongo_manager" />
+            <argument type="service" id="mongo_admin.renderer.document" />
         </service>
     </services>
 </container>
