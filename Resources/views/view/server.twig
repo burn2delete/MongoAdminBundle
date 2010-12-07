@@ -12,6 +12,7 @@
 			<tr>
 				<th>Name</th>
 				<th>Collections</th>
+				<th>Size On Disk</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -20,6 +21,7 @@
 				<tr>
 					<td><a href="{% path 'mongo_db' with ['server': server, 'db': database.getName()] %}">{{ database.getName() }}</a></td>
 					<td>{{ database.count() }}</td>
+					<td class="size-on-disk">{{ database.getSizeOnDisk() }}</td>
 					<td></td>
 				</tr>
 			{% endfor %}
@@ -30,7 +32,7 @@
 		$(function() {
 			$('.tablesorter').tablesorter({
 				headers: {
-					2: { sorter: false }
+					3: { sorter: false }
 				},
 				sortList: [[0, 0]]
 			});
