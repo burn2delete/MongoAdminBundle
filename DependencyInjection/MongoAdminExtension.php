@@ -32,7 +32,8 @@ class MongoAdminExtension extends Extension {
 
         $mongo = new Definition('%mongo_admin.mongo.class%', array(
             substr($connection, 0, 8) !== 'mongodb:' ? 'mongodb:' . $connection : $connection,
-            array('connect' => true)
+            array('connect' => true),
+            new Reference('mongo_admin.proxy_factory')
         ));
 
         $container->setDefinition(sprintf('mongo_admin.mongo_instance.%s', $name), $mongo);

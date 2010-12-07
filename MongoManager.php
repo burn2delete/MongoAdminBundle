@@ -3,6 +3,7 @@
 namespace Bundle\MongoAdminBundle;
 
 use Symfony\Component\DependencyInjection\Container;
+use Bundle\MongoAdminBundle\Proxy\Mongo;
 use Bundle\MongoAdminBundle\Proxy\ProxyFactory;
 
 class MongoManager {
@@ -14,7 +15,7 @@ class MongoManager {
         $this->proxyFactory = $proxyFactory;
     }
 
-    public function addMongo($name, \Mongo $mongo) {
+    public function addMongo($name, Mongo $mongo) {
         $this->mongos[$name] = $mongo;
     }
 
@@ -35,7 +36,7 @@ class MongoManager {
         $dbList = $mongo->listDBs();
 
         foreach ($dbList['databases'] as $i => $database) {
-            $databases[$database['name']] = $this->proxyFactory->getDatabase($mongo, $database);
+            $databases[$database['name']] = $mongo->selectDb($database['name']);
         }
 
         return $databases;
@@ -73,7 +74,7 @@ class MongoManager {
             $databases = $mongo->listDBs();
 
             foreach ($databases['databases'] as $database) {
-                $db = $this->proxyFactory->getDatabase($mongo, $database);
+                $db = $mongo->selectDb($database['name']);
 
                 $collections[$name][$database['name']] = array();
 

@@ -18,13 +18,13 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mongo->expects($this->once())
-            ->method('selectDB')
-            ->with($this->databaseName)
-            ->will($this->returnValue($this->mockMongoDb));
+        $proxy = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->database = new Database(
-            $mongo,
+            $proxy,
+            $this->mockMongoDb,
             array(
                 'name' => $this->databaseName, 
                 'sizeOnDisk' => $this->sizeOnDisk

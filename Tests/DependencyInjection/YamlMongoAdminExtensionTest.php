@@ -13,7 +13,7 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $loader->configLoad(array(), $container);
 
-        $this->assertEquals('Mongo', $container->getParameter('mongo_admin.mongo.class'));
+        $this->assertEquals('Bundle\MongoAdminBundle\Proxy\Mongo', $container->getParameter('mongo_admin.mongo.class'));
         $this->assertEquals('Bundle\MongoAdminBundle\MongoManager', $container->getParameter('mongo_admin.mongo_manager.class'));
         $this->assertEquals('Bundle\MongoAdminBundle\Helper\MongoManagerHelper', $container->getParameter('mongo_admin.helper.mongo_manager.class'));
         $this->assertEquals('Bundle\MongoAdminBundle\Proxy\ProxyFactory', $container->getParameter('mongo_admin.proxy_factory.class'));
@@ -44,7 +44,6 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $definition = $container->getDefinition('mongo_admin.mongo_instance.server_one');
         $this->assertEquals('%mongo_admin.mongo.class%', $definition->getClass());
-        $this->assertEquals(array('mongodb://localhost:27017', array('connect' => true)), $definition->getArguments());
     }
 
     public function testMultipleServers() {
@@ -58,11 +57,9 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $definition = $container->getDefinition('mongo_admin.mongo_instance.server_one');
         $this->assertEquals('%mongo_admin.mongo.class%', $definition->getClass());
-        $this->assertEquals(array('mongodb://localhost:27017', array('connect' => true)), $definition->getArguments());
 
         $definition = $container->getDefinition('mongo_admin.mongo_instance.server_two');
         $this->assertEquals('%mongo_admin.mongo.class%', $definition->getClass());
-        $this->assertEquals(array('mongodb://localhost:27017', array('connect' => true)), $definition->getArguments());
     }
 
     protected function loadFromFile(ContainerBuilder $container, $file) {

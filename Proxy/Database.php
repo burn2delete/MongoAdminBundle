@@ -10,11 +10,11 @@ class Database {
     protected $name;
     protected $mongo;
 
-    public function __construct(\Mongo $mongo, array $database) {
+    public function __construct(Mongo $mongo, \MongoDb $db, array $database) {
         $this->mongo = $mongo;
         $this->name = $database['name'];
 
-        $this->db = $mongo->selectDB($database['name']);
+        $this->db = $db;
         $this->sizeOnDisk = $database['sizeOnDisk'];
     }
 
@@ -36,5 +36,9 @@ class Database {
 
     public function listCollections() {
         return $this->db->listCollections();
+    }
+
+    public function selectCollection($collection) {
+        return $this->db->selectCollection($collection);
     }
 }

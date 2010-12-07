@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="mongo_admin.mongo.class">Mongo</parameter>
+        <parameter key="mongo_admin.mongo.class">Bundle\MongoAdminBundle\Proxy\Mongo</parameter>
         <parameter key="mongo_admin.mongo_manager.class">Bundle\MongoAdminBundle\MongoManager</parameter>
         <parameter key="mongo_admin.helper.mongo_manager.class">Bundle\MongoAdminBundle\Helper\MongoManagerHelper</parameter>
         <parameter key="mongo_admin.proxy_factory.class">Bundle\MongoAdminBundle\Proxy\ProxyFactory</parameter>

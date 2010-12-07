@@ -14,7 +14,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSetGetMongo() {
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -27,7 +27,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetDatabases() {
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -35,22 +35,17 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $expectedNoCollections = array('databases' => array(array('name' => 'test')));
-        $expected = array('test' => $db);
-
         $mongo->expects($this->once())
             ->method('listDBs')
-            ->will($this->returnValue($expectedNoCollections));
+            ->will($this->returnValue(array('databases' => array(array('name' => 'test')))));
 
-        $this->proxyFactory->expects($this->once())
-            ->method('getDatabase')
-            ->with($mongo, $expectedNoCollections['databases'][0])
+        $mongo->expects($this->once())
+            ->method('selectDb')
+            ->with('test')
             ->will($this->returnValue($db));
 
         $this->mongoManager->addMongo('test', $mongo);
-        $actual = $this->mongoManager->getDatabases('test');
-
-        $this->assertEquals($expected, $actual);
+        $this->mongoManager->getDatabases('test');
     }
 
     public function testGetDatabasesReturnsNullOnNoServer() {
@@ -61,7 +56,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $server = 'server_one';
         $dbName = 'db_one';
 
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -87,7 +82,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $dbName = 'db_one';
         $collectionName = 'testCollection';
 
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -124,7 +119,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $id = '4cf033c2a91a834a7d000000';
         $document = array('_id' => $id);
 
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -164,7 +159,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             'test_db' => array('collection_one', 'collection_two')
         ));
 
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -184,9 +179,9 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             ->method('listDBs')
             ->will($this->returnValue(array('databases' => array(array('name' => 'test_db')))));
 
-        $this->proxyFactory->expects($this->once())
-            ->method('getDatabase')
-            ->with($mongo, array('name' => 'test_db'))
+        $mongo->expects($this->once())
+            ->method('selectDb')
+            ->with('test_db')
             ->will($this->returnValue($database));
 
         $database->expects($this->once())

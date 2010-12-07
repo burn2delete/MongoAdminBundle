@@ -20,16 +20,11 @@ class ProxyFactoryTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mongo = $this->getMockBuilder('Mongo')
+        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mongo->expects($this->once())
-            ->method('selectDB')
-            ->with($data['name'])
-            ->will($this->returnValue($mongoDb));
-
-        $database = $this->factory->getDatabase($mongo, $data);
+        $database = $this->factory->getDatabase($mongo, $mongoDb, $data);
 
         $this->assertEquals($data['name'], $database->getName());
         $this->assertEquals($data['sizeOnDisk'], $database->getSizeOnDisk());
