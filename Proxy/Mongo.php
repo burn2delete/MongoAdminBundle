@@ -25,10 +25,14 @@ class Mongo {
             }
         }
 
-        return null;
+        return $this->proxyFactory->getDatabase($this, $this->mongo->selectDb($db), array('name' => $db, 'sizeOnDisk' => 0));;
     }
 
     public function listDbs() {
         return $this->mongo->listDbs();
+    }
+
+    public function dropDb($db) {
+        $this->mongo->dropDb($db);
     }
 }

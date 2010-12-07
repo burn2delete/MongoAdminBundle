@@ -35,4 +35,14 @@ class MongoTest extends \PHPUnit_Framework_TestCase {
         $actual = $this->mongo->listDbs();
         $this->assertEquals($expected, $actual);
     }
+
+    public function testDropDb() {
+        $db = 'test_db';
+
+        $this->mockMongo->expects($this->once())
+            ->method('dropDb')
+            ->with($db);
+
+        $this->mongo->dropDb($db);
+    }
 }

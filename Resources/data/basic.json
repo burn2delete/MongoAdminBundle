@@ -2,6 +2,9 @@
 	"states": [
 		{
 			"name": "New Jersey",
+			"abbr": "NJ",
+			"capital": "Trenton",
+			"population": "8707739",
 			"zip_codes": [
 				"08201",
 				"07710",
@@ -11,6 +14,9 @@
 		},
 		{
 			"name": "New York",
+			"abbr": "NY",
+			"capital": "Albany",
+			"population": "19541453",
 			"zip_codes": [
 				"12288",
 				"12261",
