@@ -10,6 +10,7 @@ class MongoManager {
     
     protected $mongos = array();
     protected $proxyFactory;
+    protected $skipDbs = array('admin', 'local');
 
     public function __construct(ProxyFactory $proxyFactory) {
         $this->proxyFactory = $proxyFactory;
@@ -36,6 +37,10 @@ class MongoManager {
         $dbList = $mongo->listDBs();
 
         foreach ($dbList['databases'] as $i => $database) {
+            if (in_array($database['name'], $this->skipDbs)) {
+                continue;
+            }
+
             $databases[$database['name']] = $mongo->selectDb($database['name']);
         }
 
@@ -74,6 +79,10 @@ class MongoManager {
             $databases = $mongo->listDBs();
 
             foreach ($databases['databases'] as $database) {
+                if (in_array($database['name'], $this->skipDbs)) {
+                    continue;
+                }
+
                 $db = $mongo->selectDb($database['name']);
 
                 $collections[$name][$database['name']] = array();
