@@ -15,7 +15,7 @@ class ImportDataCommand extends Command {
             ->addArgument('server', InputArgument::REQUIRED, 'Server to import data to')
             ->addArgument('database', InputArgument::REQUIRED, 'Database to import data to')
             ->addArgument('file', InputArgument::REQUIRED, 'Path to json file')
-            ->addOption('drop', 'd', InputOption::PARAMETER_NONE, 'Drop the database before importing');
+            ->addOption('drop', 'd', InputOption::VALUE_NONE, 'Drop the database before importing');
     }
 
     public function execute(InputInterface $input, OutputInterface $output) {
