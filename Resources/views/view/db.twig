@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-	{% include "MongoAdminBundle:layout:breadcrumb.twig" with ['server': server, 'db': db] %}
+	{% include "MongoAdminBundle:layout:breadcrumb.twig" with {'server': server, 'db': db} %}
 
 	<table class="tablesorter">
 		<thead>
@@ -18,7 +18,7 @@
 		<tbody>
 			{% for collection in collections %}
 				<tr>
-					<td><a href="{% path 'mongo_collection' with ['server': server, 'db': db, 'collection': collection.name] %}">{{ collection.name }}</a></td>
+					<td><a href="{% path 'mongo_collection' with {'server': server, 'db': db, 'collection': collection.name} %}">{{ collection.name }}</a></td>
 					<td>{{ collection.count }}</td>
 					<td></td>
 				</tr>
