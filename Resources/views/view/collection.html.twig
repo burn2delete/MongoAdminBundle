@@ -15,7 +15,16 @@
 			{% for document in cursor %}
 				<tr>
 					<td><a href="{{ path('mongo_document', {'server': server, 'db': db, 'collection': collection, 'id': document._id}) }}">{{ document._id }}</a></td>
-					<td></td>
+					<td>
+                        {% set display_field = true %}
+                        {% for field, value in document %}
+                            {% if field != '_id' and display_field == true %}
+                                {{ field }}: {{ value }}
+
+                                {% set display_field = false %}
+                            {% endif %}
+                        {% endfor %}
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
