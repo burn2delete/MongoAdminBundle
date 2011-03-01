@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Render;
+namespace Bundle\Steves\MongoAdminBundle\Render;
 
 class Document {
     public function preparePreview(array $document) {

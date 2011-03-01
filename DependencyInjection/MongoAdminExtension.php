@@ -1,23 +1,29 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\DependencyInjection;
+namespace Bundle\Steves\MongoAdminBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class MongoAdminExtension extends Extension {
+    /**
+     * Loads a specific configuration.
+     *
+     * @param array   $config        An array of configuration values
+     * @param ContainerBuilder $configuration A ContainerBuilder instance
+     *
+     * @throws \InvalidArgumentException When provided tag is not defined in this extension
+     */
+    public function load(array $config, ContainerBuilder $container) {
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('mongo_admin.xml');
 
-    protected $resources = array('mongo_admin' => 'mongo_admin.xml');
-
-    public function configLoad($config, ContainerBuilder $container) {
-        $loader = new XmlFileLoader($container, __DIR__ . '/../Resources/config');
-        $loader->load($this->resources['mongo_admin']);
-
-        if (isset($config['servers']) && is_array($config['servers'])) {
-            foreach ($config['servers'] as $name => $connection) {
+        if (isset($config[0]['servers']) && is_array($config[0]['servers'])) {
+            foreach ($config[0]['servers'] as $name => $connection) {
                 $this->loadMongoInstance($name, $connection, $container);
             }
         }
@@ -25,7 +31,7 @@ class MongoAdminExtension extends Extension {
         return $container;
     }
 
-    protected function loadMongoInstance($name, $connection, ContainerBuilder $container) {
+    private function loadMongoInstance($name, $connection, ContainerBuilder $container) {
         if (substr($connection, 0, 8) !== 'mongodb:') {
             $connection = 'mongodb://' . $connection;
         }
@@ -45,12 +51,12 @@ class MongoAdminExtension extends Extension {
         ));
     }
 
-    public function getNamespace() {
-        return 'http://www.symfony-project.org/schema/dic/symfony';
-    }
-
     public function getXsdValidationBasePath() {
         return __DIR__ . '/../Resources/config';
+    }
+
+    public function getNamespace() {
+        return 'http://www.symfony-project.org/schema/dic/symfony';
     }
 
     public function getAlias() {

@@ -1,0 +1,9 @@
+{% extends "MongoAdminBundle:layout:layout.html.twig" %}
+
+{% block content %}
+	{% include "MongoAdminBundle:layout:breadcrumb.html.twig" with {'server': server, 'db': db, 'collection': collection, 'id': id} %}
+
+	<div class="document-preview">
+		<pre><code>{{ documentPreview }}</code></pre>
+	</div>
+{% endblock %}

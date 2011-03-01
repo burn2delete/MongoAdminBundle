@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Proxy;
+namespace Bundle\Steves\MongoAdminBundle\Proxy;
 
 class Database {
 

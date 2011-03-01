@@ -1,0 +1,22 @@
+<h2 id="breadcrumb">
+	{% if server %}
+		{% if db %}
+			<a href="{{ path('mongo_server', {'server': server}) }}">{{ server }}</a> /
+
+			{% if collection %}
+				<a href="{{ path('mongo_db', {'server': server, 'db': db}) }}">{{ db }}</a> /
+
+				{% if id %}
+					<a href="{{ path('mongo_collection', {'server': server, 'db': db, 'collection': collection}) }}">{{ collection }}</a> /
+					{{ id }}
+				{% else %}
+					{{ collection }}
+				{% endif %}
+			{% else %}
+				{{ db }}
+			{% endif %}
+		{% else %}
+			{{ server }}
+		{% endif %}
+	{% endif %}
+</h2>

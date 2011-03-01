@@ -1,11 +1,11 @@
-{% extends "MongoAdminBundle:layout:layout.twig" %}
+{% extends "MongoAdminBundle:layout:layout.html.twig" %}
 
 {% block resources %}
-	{% javascript 'bundles/mongoadmin/js/jquery.tablesorter.js' %}
+    <script type="text/javascript" src="{{ asset('bundles/mongoadmin/js/jquery.tablesorter.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-	{% include "MongoAdminBundle:layout:breadcrumb.twig" with {'server': server} %}
+	{% include "MongoAdminBundle:layout:breadcrumb.html.twig" with {'server': server} %}
 
 	<table class="tablesorter">
 		<thead>
@@ -19,7 +19,7 @@
 		<tbody>
 			{% for database in databases %}
 				<tr>
-					<td><a href="{% path 'mongo_db' with {'server': server, 'db': database.getName()} %}">{{ database.getName() }}</a></td>
+					<td><a href="{{ path('mongo_db', {'server': server, 'db': database.getName()}) }}">{{ database.getName() }}</a></td>
 					<td>{{ database.count() }}</td>
 					<td class="size-on-disk">{{ database.getSizeOnDisk() }}</td>
 					<td></td>

@@ -1,23 +1,5 @@
 <!DOCTYPE html>
 
-{# 
-	These resource blocks are necessary to work around an issue where twig
-	includes the resources from blocks before those declared inline. This
-	results in javascript files being included before their dependencies.
-#}
-{% block layout_resources %}
-	{% javascript 'bundles/mongoadmin/js/jquery.js' %}
-	{% javascript 'bundles/mongoadmin/js/jquery.cookie.js' %}
-	{% javascript 'bundles/mongoadmin/js/jquery.treeview.js' %}
-	{% javascript 'bundles/mongoadmin/js/mongoadmin.js' %}
-
-	{% stylesheet 'bundles/mongoadmin/css/reset.css' %}
-	{% stylesheet 'bundles/mongoadmin/css/layout.css' %}
-	{% stylesheet 'bundles/mongoadmin/css/jquery.treeview.css' %}
-{% endblock %}
-
-{% block resources '' %}
-
 <html lang="en">
 	<head>
 		<title>{% block title 'MongoAdmin' %}</title>
@@ -25,8 +7,15 @@
 
 		<link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAABILAAASCwAAAAEAAAABAACObVoAkG5bAJFwXgCVdmYAlXZmAJV2ZgCVdmYAo4h4AKOIeACul4oArpeKALKbjwC5pJkAuaSZALmkmQC5pJkAv62jAMGupADFtasAxbWrAMW1qwDKu7IAz8C4ANLEuwDWysQA1srEANbKxADWysQA3dLMAOXc2ADl3NgA6OLdAOji3QDs5%2BMA7OfjAOzn4wDx7OoA8%2FDuAPr49wD6%2BPcA%2Bvj3APAA6wAA9gAAAQH7AAEHAQATAQ0AARkBACUBHwABKwEAOAEyAAE%2BAQBMAUUAAVIBAGABWQABZwEAdQFuAAF8AQCLAYMAAZIBAKEBmgABqQEAuQGxAAHBAQDRAckAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEDHB0fISQlGBIVFRURAAEBAxwdHyEkJRgSFRUVEQEBAQMcHx8hJSUXFRUVFhAAAQEAGB8hJCUmFxUVFRYMAAEBABUhISQlJhgVFRUXBwEBAQELJCElJiYYFRUVFQMBAQEBByEkJSYmGBUWFwwAAQEBAQEYJSUmJhgVFhcHAQEBAQEBCSYmJiYYFhcQAQEBAQEBAQIYJiYmGBYWAwEBAQEBAQEBByYmJhgXCQEBAQEBAQEBAQEMJiYcDAIBAQEBAQEBAQEBARImEgIBAQEBAQEBAQEBAQEBEQcBAQEBAQEBAQEBAQEBAQICAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D" type="image/x-icon" />
 
-		{% javascripts %}
-		{% stylesheets %}
+        <script type="text/javascript" src="{{ asset('bundles/mongoadmin/js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/mongoadmin/js/jquery.cookie.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/mongoadmin/js/jquery.treeview.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/mongoadmin/js/mongoadmin.js') }}"></script>
+
+        <link href="{{ asset('bundles/mongoadmin/css/reset.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('bundles/mongoadmin/css/layout.css') }}" type="text/css" rel="stylesheet"/>
+        <link href="{{ asset('bundles/mongoadmin/css/jquery.treeview.css') }}" type="text/css" rel="stylesheet"/>
+
 	</head>
 	<body>
 		<div id="header">
@@ -34,7 +23,7 @@
 		</div>
 
 		<div id="navigation">
-			{% include "MongoAdminBundle:layout:navigation.twig" with {'_view': _view} %}
+			{% include "MongoAdminBundle:layout:navigation.html.twig" with {'_view': _view} %}
 		</div>
 
 		<div id="content">

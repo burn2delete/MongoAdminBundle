@@ -1,10 +1,10 @@
 <?php
 
-namespace Bundle\MongoAdminBundle;
+namespace Bundle\Steves\MongoAdminBundle;
 
 use Symfony\Component\DependencyInjection\Container;
-use Bundle\MongoAdminBundle\Proxy\Mongo;
-use Bundle\MongoAdminBundle\Proxy\ProxyFactory;
+use Bundle\Steves\MongoAdminBundle\Proxy\Mongo;
+use Bundle\Steves\MongoAdminBundle\Proxy\ProxyFactory;
 
 class MongoManager {
     

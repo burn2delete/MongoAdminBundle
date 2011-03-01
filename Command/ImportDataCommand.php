@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Command;
+namespace Bundle\Steves\MongoAdminBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

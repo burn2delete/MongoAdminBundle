@@ -1,9 +1,9 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Helper;
+namespace Bundle\Steves\MongoAdminBundle\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
-use Bundle\MongoAdminBundle\MongoManager;
+use Bundle\Steves\MongoAdminBundle\MongoManager;
 
 class MongoManagerHelper extends Helper {
 

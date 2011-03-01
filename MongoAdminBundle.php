@@ -1,9 +1,8 @@
 <?php
 
-namespace Bundle\MongoAdminBundle;
+namespace Bundle\Steves\MongoAdminBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-class MongoAdminBundle extends Bundle {}
+class MongoAdminBundle extends Bundle {
+}

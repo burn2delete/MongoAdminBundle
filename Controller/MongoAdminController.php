@@ -1,12 +1,12 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Controller;
+namespace Bundle\Steves\MongoAdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\Engine;
-use Bundle\MongoAdminBundle\MongoManager;
-use Bundle\MongoAdminBundle\Render\Document;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Bundle\Steves\MongoAdminBundle\MongoManager;
+use Bundle\Steves\MongoAdminBundle\Render\Document;
 
 class MongoAdminController {
 
@@ -15,7 +15,7 @@ class MongoAdminController {
     protected $mongoManager;
     protected $documentRenderer;
 
-    public function __construct(Request $request, Engine $templating, MongoManager $mongoManager, Document $documentRenderer) {
+    public function __construct(Request $request, EngineInterface $templating, MongoManager $mongoManager, Document $documentRenderer) {
         $this->request = $request;
         $this->templating = $templating;
         $this->mongoManager = $mongoManager;
@@ -25,7 +25,7 @@ class MongoAdminController {
     public function index() {
         $collections = $this->mongoManager->getCollectionsArray();
 
-        $content = $this->templating->render('MongoAdminBundle:view:index.twig', array('collections' => $collections));
+        $content = $this->templating->render('MongoAdminBundle:view:index.html.twig', array('collections' => $collections));
         return new Response($content, 200);
     }
 
@@ -33,7 +33,7 @@ class MongoAdminController {
         $databases = $this->mongoManager->getDatabases($server);
 
         $content = $this->templating->render(
-            'MongoAdminBundle:view:server.twig',
+            'MongoAdminBundle:view:server.html.twig',
             array(
                 'server' => $server,
                 'databases' => $databases
@@ -48,7 +48,7 @@ class MongoAdminController {
         $collections = $mongoDb->listCollections();
 
         $content = $this->templating->render(
-            'MongoAdminBundle:view:db.twig',
+            'MongoAdminBundle:view:db.html.twig',
             array(
                 'server' => $server,
                 'db' => $db,
@@ -63,7 +63,7 @@ class MongoAdminController {
         $mongoCollection = $this->mongoManager->getCollection($server, $db, $collection);
 
         $content = $this->templating->render(
-            'MongoAdminBundle:view:collection.twig',
+            'MongoAdminBundle:view:collection.html.twig',
             array(
                 'server' => $server,
                 'db' => $db,
@@ -79,7 +79,7 @@ class MongoAdminController {
         $document = $this->mongoManager->getDocumentById($server, $db, $collection, $id);
 
         $content = $this->templating->render(
-            'MongoAdminBundle:view:document.twig',
+            'MongoAdminBundle:view:document.html.twig',
             array(
                 'server' => $server,
                 'db' => $db,
