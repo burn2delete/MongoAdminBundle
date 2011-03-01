@@ -7,7 +7,6 @@
     <parameters>
         <parameter key="mongo_admin.mongo.class">Bundle\Steves\MongoAdminBundle\Proxy\Mongo</parameter>
         <parameter key="mongo_admin.mongo_manager.class">Bundle\Steves\MongoAdminBundle\MongoManager</parameter>
-        <parameter key="mongo_admin.helper.mongo_manager.class">Bundle\Steves\MongoAdminBundle\Helper\MongoManagerHelper</parameter>
         <parameter key="mongo_admin.proxy_factory.class">Bundle\Steves\MongoAdminBundle\Proxy\ProxyFactory</parameter>
         <parameter key="mongo_admin.renderer.document.class">Bundle\Steves\MongoAdminBundle\Render\Document</parameter>
         
@@ -21,11 +20,6 @@
             <argument type="service" id="mongo_admin.proxy_factory" />
         </service>
 
-        <service id="mongo_admin.helper.mongo_manager" class="%mongo_admin.helper.mongo_manager.class%">
-            <tag name="templating.helper" alias="mongo_manager" />
-            <argument type="service" id="mongo_admin.mongo_manager" />
-        </service>
-
         <service id="mongo_admin.renderer.document" class="%mongo_admin.renderer.document.class%" />
         
         <service id="mongo_admin_controller" class="%mongo_admin_controller_class%" scope="prototype">
@@ -34,5 +28,15 @@
             <argument type="service" id="mongo_admin.mongo_manager" />
             <argument type="service" id="mongo_admin.renderer.document" />
         </service>
+
+        <service id="templating.helper.mongo_manager" class="Bundle\Steves\MongoAdminBundle\Helper\MongoManagerHelper">
+			<tag name="twig.helper" />
+            <argument type="service" id="mongo_admin.mongo_manager" />
+        </service>
+
+		<service id="twig.extension.mongo_manager" class="Bundle\Steves\MongoAdminBundle\Extension\MongoManagerExtension">
+			<tag name="twig.extension" />
+			<argument type="service" id="templating.helper.mongo_manager" />
+		</service>
     </services>
 </container>

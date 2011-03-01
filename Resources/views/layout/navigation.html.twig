@@ -1,4 +1,4 @@
-{% set collections = _view.mongo_manager.getCollections %}
+{% set collections = mongo_manager.getCollections %}
 
 <ul id="navigation-tree">
 	{% for server, dbs in collections %}
