@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Tests\DependencyInjection\Fixtures\Bundles\YamlBundle;
+namespace Bundle\Steves\MongoAdminBundle\Tests\DependencyInjection\Fixtures\Bundles\YamlBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Proxy;
+namespace Bundle\Steves\MongoAdminBundle\Proxy;
 
 class DatabaseTest extends \PHPUnit_Framework_TestCase {
 
@@ -18,7 +18,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $proxy = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $proxy = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 

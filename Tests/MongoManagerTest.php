@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle;
+namespace Bundle\Steves\MongoAdminBundle;
 
 class MongoManagerTest extends \PHPUnit_Framework_TestCase {
 
@@ -8,13 +8,13 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
     protected $proxyFactory;
 
     public function setUp() {
-        $this->proxyFactory = $this->getMock('Bundle\MongoAdminBundle\Proxy\ProxyFactory');
+        $this->proxyFactory = $this->getMock('Bundle\Steves\MongoAdminBundle\Proxy\ProxyFactory');
 
         $this->mongoManager = new MongoManager($this->proxyFactory);
     }
 
     public function testSetGetMongo() {
-        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $mongo = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -27,11 +27,11 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetDatabases() {
-        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $mongo = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $db = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Database')
+        $db = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Database')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,7 +56,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $server = 'server_one';
         $dbName = 'db_one';
 
-        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $mongo = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -82,7 +82,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $dbName = 'db_one';
         $collectionName = 'testCollection';
 
-        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $mongo = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -119,7 +119,7 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
         $id = '4cf033c2a91a834a7d000000';
         $document = array('_id' => $id);
 
-        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $mongo = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -159,11 +159,11 @@ class MongoManagerTest extends \PHPUnit_Framework_TestCase {
             'test_db' => array('collection_one', 'collection_two')
         ));
 
-        $mongo = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Mongo')
+        $mongo = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Mongo')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $database = $this->getMockBuilder('Bundle\MongoAdminBundle\Proxy\Database')
+        $database = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Proxy\Database')
             ->disableOriginalConstructor()
             ->getMock();
 

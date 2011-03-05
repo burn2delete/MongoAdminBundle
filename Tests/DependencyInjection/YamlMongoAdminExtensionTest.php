@@ -1,7 +1,8 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\DependencyInjection;
+namespace Bundle\Steves\MongoAdminBundle\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
@@ -11,26 +12,26 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
         $container = $this->getContainer();
         $loader = new MongoAdminExtension();
 
-        $loader->configLoad(array(), $container);
+        $loader->load(array(), $container);
 
-        $this->assertEquals('Bundle\MongoAdminBundle\Proxy\Mongo', $container->getParameter('mongo_admin.mongo.class'));
-        $this->assertEquals('Bundle\MongoAdminBundle\MongoManager', $container->getParameter('mongo_admin.mongo_manager.class'));
-        $this->assertEquals('Bundle\MongoAdminBundle\Helper\MongoManagerHelper', $container->getParameter('mongo_admin.helper.mongo_manager.class'));
-        $this->assertEquals('Bundle\MongoAdminBundle\Proxy\ProxyFactory', $container->getParameter('mongo_admin.proxy_factory.class'));
-        $this->assertEquals('Bundle\MongoAdminBundle\Controller\MongoAdminController', $container->getParameter('mongo_admin_controller_class'));
+        $this->assertEquals('Bundle\Steves\MongoAdminBundle\Proxy\Mongo', $container->getParameter('mongo_admin.mongo.class'));
+        $this->assertEquals('Bundle\Steves\MongoAdminBundle\MongoManager', $container->getParameter('mongo_admin.mongo_manager.class'));
+        $this->assertEquals('Bundle\Steves\MongoAdminBundle\Proxy\ProxyFactory', $container->getParameter('mongo_admin.proxy_factory.class'));
+        $this->assertEquals('Bundle\Steves\MongoAdminBundle\Controller\MongoAdminController', $container->getParameter('mongo_admin_controller_class'));
+        $this->assertEquals('Bundle\Steves\MongoAdminBundle\Render\DocumentFactory', $container->getParameter('mongo_admin.renderer.document.factory.class'));
 
         $definition = $container->getDefinition('mongo_admin.mongo_manager');
         $this->assertEquals('%mongo_admin.mongo_manager.class%', $definition->getClass());
 
-        $definition = $container->getDefinition('mongo_admin.helper.mongo_manager');
-        $this->assertEquals('%mongo_admin.helper.mongo_manager.class%', $definition->getClass());
-        $this->assertArrayHasKey('templating.helper', $definition->getTags());
+        $definition = $container->getDefinition('templating.helper.mongo_manager');
+        $this->assertEquals('Bundle\Steves\MongoAdminBundle\Helper\MongoManagerHelper', $definition->getClass());
+        $this->assertArrayHasKey('twig.helper', $definition->getTags());
 
         $definition = $container->getDefinition('mongo_admin.proxy_factory');
         $this->assertEquals('%mongo_admin.proxy_factory.class%', $definition->getClass());
 
-        $definition = $container->getDefinition('mongo_admin.renderer.document');
-        $this->assertEquals('%mongo_admin.renderer.document.class%', $definition->getClass());
+        $definition = $container->getDefinition('mongo_admin.renderer.document.factory');
+        $this->assertEquals('%mongo_admin.renderer.document.factory.class%', $definition->getClass());
     }
 
     public function testSingleServer() {
@@ -40,7 +41,9 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $this->loadFromFile($container, 'single');
 
-        $container->freeze();
+        $container->getCompilerPassConfig()->setOptimizationPasses(array());
+        $container->getCompilerPassConfig()->setRemovingPasses(array());
+        $container->compile();
 
         $definition = $container->getDefinition('mongo_admin.mongo_instance.server_one');
         $this->assertEquals('%mongo_admin.mongo.class%', $definition->getClass());
@@ -53,7 +56,9 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
 
         $this->loadFromFile($container, 'multiple');
 
-        $container->freeze();
+        $container->getCompilerPassConfig()->setOptimizationPasses(array());
+        $container->getCompilerPassConfig()->setRemovingPasses(array());
+        $container->compile();
 
         $definition = $container->getDefinition('mongo_admin.mongo_instance.server_one');
         $this->assertEquals('%mongo_admin.mongo.class%', $definition->getClass());
@@ -63,7 +68,7 @@ class YamlMongoAdminExtensionTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function loadFromFile(ContainerBuilder $container, $file) {
-        $loadYaml = new YamlFileLoader($container, __DIR__ . '/Fixtures/config/yml');
+        $loadYaml = new YamlFileLoader($container,  new FileLocator(__DIR__ . '/Fixtures/config/yml'));
         $loadYaml->load($file . '.yml');
     }
 

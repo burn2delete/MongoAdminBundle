@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Proxy;
+namespace Bundle\Steves\MongoAdminBundle\Proxy;
 
 class MongoTest extends \PHPUnit_Framework_TestCase {
 
@@ -16,7 +16,7 @@ class MongoTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->proxyFactory = $this->getMock('Bundle\MongoAdminBundle\Proxy\ProxyFactory');
+        $this->proxyFactory = $this->getMock('Bundle\Steves\MongoAdminBundle\Proxy\ProxyFactory');
         $this->proxyFactory->expects($this->once())
             ->method('getMongo')
             ->with($connection, $options)

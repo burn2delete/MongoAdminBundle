@@ -1,13 +1,13 @@
 <?php
 
-namespace Bundle\MongoAdminBundle\Controller;
+namespace Bundle\Steves\MongoAdminBundle\Controller;
 
 class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
 
     protected $controller;
     protected $request;
     protected $engine;
-    protected $documentRenderer;
+    protected $rendererFactory;
     protected $mongoManager;
 
     public function setUp() {
@@ -15,17 +15,19 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->engine = $this->getMockBuilder('Symfony\Component\Templating\Engine')
+        $this->engine = $this->getMockBuilder('Symfony\Bundle\TwigBundle\TwigEngine')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mongoManager = $this->getMockBuilder('Bundle\MongoAdminBundle\MongoManager')
+        $this->mongoManager = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\MongoManager')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->documentRenderer = $this->getMock('Bundle\MongoAdminBundle\Render\Document');
+        $this->rendererFactory = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Render\DocumentFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->controller = new MongoAdminController($this->request, $this->engine, $this->mongoManager, $this->documentRenderer);
+        $this->controller = new MongoAdminController($this->request, $this->engine, $this->mongoManager, $this->rendererFactory);
     }
 
     public function testIndex() {
@@ -38,7 +40,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:index.twig', array('collections' => $collections))
+            ->with('MongoAdminBundle:view:index.html.twig', array('collections' => $collections))
             ->will($this->returnValue($template));
 
         $response = $this->controller->index();
@@ -59,7 +61,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:server.twig', array('server' => $server, 'databases' => $serverData))
+            ->with('MongoAdminBundle:view:server.html.twig', array('server' => $server, 'databases' => $serverData))
             ->will($this->returnValue($template));
 
         $response = $this->controller->viewServer($server);
@@ -89,7 +91,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:db.twig', array('server' => $server, 'db' => $db, 'collections' => $collections))
+            ->with('MongoAdminBundle:view:db.html.twig', array('server' => $server, 'db' => $db, 'collections' => $collections))
             ->will($this->returnValue($template));
 
         $response = $this->controller->viewDb($server, $db);
@@ -123,7 +125,12 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
 
         $this->engine->expects($this->once())
             ->method('render')
-            ->with('MongoAdminBundle:view:collection.twig', array('server' => $server, 'db' => $db, 'collection' => $collection, 'cursor' => $mongoCursor))
+            ->with('MongoAdminBundle:view:collection.html.twig', array(
+                'server' => $server,
+                'db' => $db,
+                'collection' => $collection,
+                'cursor' => $mongoCursor
+            ))
             ->will($this->returnValue($template));
 
         $response = $this->controller->viewCollection($server, $db, $collection);
@@ -146,7 +153,16 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
             ->with($server, $db, $collection, $id)
             ->will($this->returnValue($document));
 
-        $this->documentRenderer->expects($this->once())
+        $renderer = $this->getMockBuilder('Bundle\Steves\MongoAdminBundle\Render\Document')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->rendererFactory->expects($this->once())
+            ->method('getRenderer')
+            ->with($server)
+            ->will($this->returnValue($renderer));
+
+        $renderer->expects($this->once())
             ->method('preparePreview')
             ->with($document)
             ->will($this->returnValue($documentPreview));
@@ -154,7 +170,7 @@ class MongoAdminControllerTest extends \PHPUnit_Framework_TestCase {
         $this->engine->expects($this->once())
             ->method('render')
             ->with(
-                'MongoAdminBundle:view:document.twig',
+                'MongoAdminBundle:view:document.html.twig',
                 array(
                     'server' => $server,
                     'db' => $db,
