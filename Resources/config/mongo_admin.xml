@@ -8,7 +8,7 @@
         <parameter key="mongo_admin.mongo.class">Bundle\Steves\MongoAdminBundle\Proxy\Mongo</parameter>
         <parameter key="mongo_admin.mongo_manager.class">Bundle\Steves\MongoAdminBundle\MongoManager</parameter>
         <parameter key="mongo_admin.proxy_factory.class">Bundle\Steves\MongoAdminBundle\Proxy\ProxyFactory</parameter>
-        <parameter key="mongo_admin.renderer.document.class">Bundle\Steves\MongoAdminBundle\Render\Document</parameter>
+        <parameter key="mongo_admin.renderer.document.factory.class">Bundle\Steves\MongoAdminBundle\Render\DocumentFactory</parameter>
         
         <parameter key="mongo_admin_controller_class">Bundle\Steves\MongoAdminBundle\Controller\MongoAdminController</parameter>
     </parameters>
@@ -20,13 +20,15 @@
             <argument type="service" id="mongo_admin.proxy_factory" />
         </service>
 
-        <service id="mongo_admin.renderer.document" class="%mongo_admin.renderer.document.class%" />
+        <service id="mongo_admin.renderer.document.factory" class="%mongo_admin.renderer.document.factory.class%">
+            <argument type="service" id="router" />
+        </service>
         
         <service id="mongo_admin_controller" class="%mongo_admin_controller_class%" scope="prototype">
             <argument type="service" id="request" />
             <argument type="service" id="templating" />
             <argument type="service" id="mongo_admin.mongo_manager" />
-            <argument type="service" id="mongo_admin.renderer.document" />
+            <argument type="service" id="mongo_admin.renderer.document.factory" />
         </service>
 
         <service id="templating.helper.mongo_manager" class="Bundle\Steves\MongoAdminBundle\Helper\MongoManagerHelper">

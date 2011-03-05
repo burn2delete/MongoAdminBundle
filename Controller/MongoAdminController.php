@@ -6,20 +6,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Bundle\Steves\MongoAdminBundle\MongoManager;
-use Bundle\Steves\MongoAdminBundle\Render\Document;
+use Bundle\Steves\MongoAdminBundle\Render\DocumentFactory;
 
 class MongoAdminController {
 
     protected $request;
     protected $templating;
     protected $mongoManager;
-    protected $documentRenderer;
+    protected $rendererFactory;
 
-    public function __construct(Request $request, EngineInterface $templating, MongoManager $mongoManager, Document $documentRenderer) {
+    public function __construct(Request $request, EngineInterface $templating, MongoManager $mongoManager, DocumentFactory $rendererFactory) {
         $this->request = $request;
         $this->templating = $templating;
         $this->mongoManager = $mongoManager;
-        $this->documentRenderer = $documentRenderer;
+        $this->rendererFactory = $rendererFactory;
     }
 
     public function index() {
@@ -77,6 +77,7 @@ class MongoAdminController {
 
     public function viewDocument($server, $db, $collection, $id) {
         $document = $this->mongoManager->getDocumentById($server, $db, $collection, $id);
+        $renderer = $this->rendererFactory->getRenderer($server);
 
         $content = $this->templating->render(
             'MongoAdminBundle:view:document.html.twig',
@@ -86,7 +87,7 @@ class MongoAdminController {
                 'collection' => $collection,
                 'id' => $id,
                 'document' => $document,
-                'documentPreview' => $this->documentRenderer->preparePreview($document)
+                'documentPreview' => $renderer->preparePreview($document)
             )
         );
 
